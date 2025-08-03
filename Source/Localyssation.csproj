@@ -4,14 +4,14 @@
     <!-- Edit here for building on your own -->
 
     <!-- Atlyss game folder -->
-    <ATLYSS_MANAGED>G:\SteamLibrary\steamapps\common\ATLYSS\ATLYSS_Data\Managed</ATLYSS_MANAGED> 
+        <ATLYSS_MANAGED>D:\SteamLibrary\steamapps\common\ATLYSS\ATLYSS_Data\Managed</ATLYSS_MANAGED>
     
     <!-- Only used here for changing profiles -->
 		<ATLYSS_PROFILE>test2</ATLYSS_PROFILE>
     <!-- BepInEx core folder -->
-    <ATLYSS_BEPINEX>$(APPDATA)\r2modmanPlus-local\ATLYSS\profiles\$(ATLYSS_PROFILE)\BepInEx\core</ATLYSS_BEPINEX> 
+        <ATLYSS_BEPINEX>D:\SteamLibrary\steamapps\common\ATLYSS\BepInEx\core</ATLYSS_BEPINEX>
     <!-- BepInEx plugins folder, debug and release builds will be copied here for testing -->
-    <ATLYSS_BEPINEX_PLUGINS>$(APPDATA)\r2modmanPlus-local\ATLYSS\profiles\$(ATLYSS_PROFILE)\BepInEx\plugins</ATLYSS_BEPINEX_PLUGINS>
+        <ATLYSS_BEPINEX_PLUGINS>D:\SteamLibrary\steamapps\common\ATLYSS\BepInEx\plugins</ATLYSS_BEPINEX_PLUGINS>
 		
 		
 		<TARGET_ATLYSS_VERSION>72025.a8</TARGET_ATLYSS_VERSION>
@@ -31,6 +31,26 @@
 
   </PropertyGroup>
 	
+    <!-- ============ 添加的关键调试配置 ============ -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <!-- 确保生成PDB文件 -->
+        <DebugType>portable</DebugType>  <!-- 使用可移植PDB格式 -->
+        <DebugSymbols>true</DebugSymbols> <!-- 生成调试符号 -->
+        <Optimize>false</Optimize>       <!-- 禁用代码优化 -->
+        <DefineConstants>DEBUG;TRACE</DefineConstants> <!-- 定义调试常量 -->
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugType>pdbonly</DebugType>   <!-- 发布版生成PDB -->
+        <Optimize>true</Optimize>        <!-- 启用代码优化 -->
+    </PropertyGroup>
+
+    
+    <!-- 添加自动复制到BepInEx的功能（可选但推荐） -->
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'"> 
+        <Exec Command="xcopy /Y /R &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(ATLYSS_BEPINEX_PLUGINS)\Localyssation\&quot;" />
+        <Exec Command="xcopy /Y /R &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(ATLYSS_BEPINEX_PLUGINS)\Localyssation\&quot;" />
+    </Target>
 	<ItemGroup>
 	  <Compile Remove="I18nKeys\Settings\模板.cs" />
 		<Compile Remove="I18nKeys\模板.cs" />
@@ -108,7 +128,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>G:\SteamLibrary\steamapps\common\ATLYSS\ATLYSS_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+          <HintPath>$(ATLYSS_MANAGED)\UnityEngine.InputLegacyModule.dll</HintPath>
 	    <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
@@ -209,7 +229,7 @@
     <!-- Mod assemblies. -->
     <ItemGroup>
         <Reference Include="EasySettings">
-            <HintPath>$(ATLYSS_BEPINEX_PLUGINS)\Nessie-EasySettings\EasySettings.dll</HintPath>
+            <HintPath>$(ATLYSS_BEPINEX_PLUGINS)\EasySettings.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
