@@ -10,6 +10,7 @@ using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
 using System.Linq;
+using Localyssation.Patches;
 
 #pragma warning disable CS0618
 
@@ -75,6 +76,9 @@ namespace Localyssation
             SettingsGUI.Init();
             OnSceneLoaded.Init();
             LangAdjustables.Init();
+            TextCaptureSystem.Initialize(); 
+            SiblingComponentsLogger.Initialize();
+            TextComponentScanner.Init();
         }
 
 #pragma warning disable IDE0051 // Suppress unused private method warning, this method is used by BepInEx
@@ -192,6 +196,12 @@ namespace Localyssation
 
                 while (true)
                 {
+                    //temp fix: result null exception
+                    if (result == null)
+                    {
+                        return "";
+                    }
+
                     // find bounds of the tagged text
                     var openingTagBeginning = $"<{tag.Key}";
                     var openingTagIndex = result.IndexOf(openingTagBeginning);
