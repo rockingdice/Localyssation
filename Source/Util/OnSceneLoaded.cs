@@ -42,6 +42,52 @@ namespace Localyssation.Util
                 case "01_rootScene":
                     break;
             }
+
+            //Handle all npc names
+            ProcessSceneNPCs(scene);
+        }
+        private static void ProcessSceneNPCs(Scene scene)
+        {
+            var rootObjects = new List<GameObject>();
+            scene.GetRootGameObjects(rootObjects);
+
+            foreach (var root in rootObjects)
+            {
+                var npcs = root.GetComponentsInChildren<Transform>(true)
+                    .Where(t => t.name.StartsWith("_npc_"))
+                    .Select(t => t.gameObject);
+
+                foreach (var npc in npcs)
+                {
+                    ProcessSingleNPC(npc);
+                }
+            }
+        }
+        private static void ProcessSingleNPC(GameObject npc)
+        { 
+             Transform visual = npc.transform.Find("_visual");
+            if (visual == null) return;
+
+            Transform nameNode = visual.Find("_text_npcName");
+            if (nameNode == null) return;
+             
+            var tmpText = nameNode.GetComponent<TMPro.TextMeshPro>();
+            if (tmpText != null)
+            {
+                tmpText.font = FontManager.UNIFONT_SDF;
+                tmpText.text = Localyssation.GetString(KeyUtil.GetForNpcName(tmpText.text), tmpText.text); 
+            }
+
+            Transform subtitleNode = nameNode.Find("_text_npcSubtitle");
+            if (subtitleNode == null) return;
+             
+            tmpText = subtitleNode.GetComponent<TMPro.TextMeshPro>();
+            if (tmpText != null)
+            {
+                tmpText.font = FontManager.UNIFONT_SDF;
+                tmpText.text = Localyssation.GetString(KeyUtil.GetForNpcSubtitle(tmpText.text), tmpText.text);
+            }
+            
         }
     }
 }
