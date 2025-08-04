@@ -50,7 +50,10 @@
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'"> 
         <Exec Command="xcopy /Y /R &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(ATLYSS_BEPINEX_PLUGINS)\Localyssation\&quot;" />
         <Exec Command="xcopy /Y /R &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(ATLYSS_BEPINEX_PLUGINS)\Localyssation\&quot;" />
+        <!-- 2. 启动游戏（需指定游戏 .exe 路径） -->
+        <Exec Command="&quot;$(ATLYSS_MANAGED)\..\..\ATLYSS.exe&quot;"/>
     </Target>
+    
 	<ItemGroup>
 	  <Compile Remove="I18nKeys\Settings\模板.cs" />
 		<Compile Remove="I18nKeys\模板.cs" />
