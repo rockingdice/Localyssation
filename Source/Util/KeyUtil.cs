@@ -230,6 +230,14 @@ namespace Localyssation.Util
         {
             return new TranslationKey($"SHOP_TAB_{Normalize(shopTab.ToString())}");
         }
+        public static TranslationKey GetForNpcName(string name)
+        {
+            return new TranslationKey($"NPC_NAME_{Normalize(name)}");
+        }
+        public static TranslationKey GetForNpcSubtitle(string name)
+        {
+            return new TranslationKey($"NPC_SUBTITLE_{Normalize(name)}");
+        }
 
     }
 }
