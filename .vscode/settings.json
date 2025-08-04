@@ -1,0 +1,16 @@
+{
+    "workbench.colorCustomizations": {
+        "[Default High Contrast Light]": {},
+        "[Tomorrow Night Blue]": {
+            "tab.activeBackground": "#327be9",
+            "tab.inactiveBackground": "#0000ff",
+            "tab.activeBorder": "#ff0000",
+            "tab.unfocusedActiveBorder": "#000000"
+        },
+        "tab.activeBorder": "#ff0000",
+        "tab.unfocusedActiveBorder": "#000000",
+        "activityBar.background": "#08304C",
+        "titleBar.activeBackground": "#0B436B",
+        "titleBar.activeForeground": "#F9FCFE"
+    }
+}
